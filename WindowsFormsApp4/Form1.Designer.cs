@@ -611,7 +611,7 @@
             // 
             this.splitContainer3.Panel2.Controls.Add(this.tabControl3);
             this.splitContainer3.Size = new System.Drawing.Size(1250, 615);
-            this.splitContainer3.SplitterDistance = 218;
+            this.splitContainer3.SplitterDistance = 573;
             this.splitContainer3.TabIndex = 0;
             // 
             // button7
@@ -746,11 +746,10 @@
             // tabControl3
             // 
             this.tabControl3.Controls.Add(this.tabPage5);
-            this.tabControl3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl3.Location = new System.Drawing.Point(0, 0);
+            this.tabControl3.Location = new System.Drawing.Point(0, 160);
             this.tabControl3.Name = "tabControl3";
             this.tabControl3.SelectedIndex = 0;
-            this.tabControl3.Size = new System.Drawing.Size(1028, 615);
+            this.tabControl3.Size = new System.Drawing.Size(760, 455);
             this.tabControl3.TabIndex = 0;
             this.tabControl3.SelectedIndexChanged += new System.EventHandler(this.tabControl3_SelectedIndexChanged);
             this.tabControl3.TabIndexChanged += new System.EventHandler(this.tabControl3_TabIndexChanged);
@@ -762,7 +761,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1020, 589);
+            this.tabPage5.Size = new System.Drawing.Size(752, 429);
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "Общий протокол";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -787,11 +786,10 @@
             this.Column28,
             this.Column29,
             this.Column30});
-            this.dataGridView3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView3.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView3.Location = new System.Drawing.Point(3, 223);
             this.dataGridView3.Name = "dataGridView3";
             this.dataGridView3.ReadOnly = true;
-            this.dataGridView3.Size = new System.Drawing.Size(1014, 583);
+            this.dataGridView3.Size = new System.Drawing.Size(626, 363);
             this.dataGridView3.TabIndex = 1;
             // 
             // stand

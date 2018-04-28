@@ -650,9 +650,19 @@ namespace WindowsFormsApp4
             foreach (category_halder category in categories2)
             {
                 //button7.Text = checkedComboBox2.Text;
+                Form container = new Form();
+                SplitContainer split = new SplitContainer();
                 TabPage myTabPage = new TabPage(category.a.Text);
-                tabControl3.TabPages.Add(myTabPage);
                 DataGridView l1 = new DataGridView();
+                container.Width = 1280;
+                container.Height = 680;
+                container.Show();
+                container.Controls.Add(split);
+                split.SplitterDistance = 250;
+                split.Dock = DockStyle.Fill;
+                split.Panel1.Controls.Add(l1);
+                //split.Panel1.BackColor = Color.FromName("black");
+                tabControl3.TabPages.Add(myTabPage);               
                 l1.Dock = DockStyle.Fill;
                 myTabPage.Controls.Add(l1);
                 int i5 = 1;
