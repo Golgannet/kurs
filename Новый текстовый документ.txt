@@ -1,0 +1,3 @@
+git remote add origin https://github.com/Golgannet/kurs.git
+git push -u origin master
+f
