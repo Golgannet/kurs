@@ -11,15 +11,34 @@ using System.Data.SQLite;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Policy;
-
+using System.Data.Common;
 
 namespace prosedures
 {
+    
     public static class func
     {
+        public static void archer_update (DataGridView l1, List<WindowsFormsApp4.archer_comp> smena)
+        {
+            l1.Rows.Clear();
+            foreach (WindowsFormsApp4.archer_comp archer in smena)
+                l1.Rows.Add(
+                            archer.stand,
+                            archer.letter,
+                            archer.plase,
+                            archer.fio,
+                            archer.age.ToString("dd:MM:yyyy"),
+                            archer.rang,
+                            archer.region,
+                            archer.vedomstvo,
+                            archer.sp_organization,
+                            archer.round,
+                            archer.tens,
+                            archer.x,
+                            archer.summ);
+        }
 
 
- 
 
 
         static string md5 = null;

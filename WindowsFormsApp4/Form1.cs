@@ -63,17 +63,21 @@ namespace WindowsFormsApp4
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            checkedComboBox1.Items.Add(12);
-            checkedComboBox1.Items.Add(18);
-            checkedComboBox1.Items.Add(30);
-            checkedComboBox1.Items.Add(40);
-            checkedComboBox1.Items.Add(50);
-            checkedComboBox1.Items.Add(60);
-            checkedComboBox1.Items.Add(70);
-            checkedComboBox1.Items.Add(90);
-            checkedComboBox1.Items.Add(70 / 50);
-            checkedComboBox1.Items.Add(90 / 70);
-            checkedComboBox1.Items.Add(70 / 60);
+            comboBox1.SelectedItem = comboBox1.Items[1];
+            comboBox3.SelectedItem = comboBox3.Items[0];
+            checkedComboBox3.ValueMember = "id";
+            checkedComboBox3.DisplayMember = "name";
+            //comboBox3.ValueMember = "id";
+            //comboBox3.DisplayMember = "name";
+            //checkedComboBox1.Items.Add(12);
+            //checkedComboBox1.Items.Add(18);
+            //checkedComboBox1.Items.Add(30);
+            //checkedComboBox1.Items.Add(40);
+            //checkedComboBox1.Items.Add(50);
+            //checkedComboBox1.Items.Add(60);
+            //checkedComboBox1.Items.Add(70);
+            //checkedComboBox1.Items.Add(90);
+            //checkedComboBox1.Items.Add("M1");
             int i5 = 1;
             foreach (DataGridViewColumn obj in dataGridView3.Columns)
             {
@@ -89,7 +93,7 @@ namespace WindowsFormsApp4
             item.a = textBox2;
             item.b = comboBox3;
             item.c = comboBox4;
-            item.d = checkedComboBox1;
+            item.f = comboBox1;
             categories.Add(item);
 
             m_sqlCmd = new SQLiteCommand();
@@ -179,46 +183,67 @@ namespace WindowsFormsApp4
             foreach (CheckedListBox l1 in tables)
             {
                 category_halder a = categories[i];
-                sqlQuery = "INSERT INTO  categories (name, min_date, max_date)VALUES ('" + a.a.Text + "','" + a.b.Text + "','" + a.c.Text + "');";
+                //sqlQuery = "DROP TABLE IF EXISTS 'smena" + (i + 8).ToString() + "';";
+                //command = new SQLiteCommand(sqlQuery, m_dbConn);
+                //command.ExecuteNonQuery();
+                sqlQuery = "CREATE TABLE 'smena" + (i).ToString() + "' ( 'id' INTEGER PRIMARY KEY AUTOINCREMENT, 'id_perfomanse' INTEGER, 'sheild' INTEGER, 'letter' INTEGER )";
                 command = new SQLiteCommand(sqlQuery, m_dbConn);
                 command.ExecuteNonQuery();
-                sqlQuery = "SELECT id FROM categories WHERE id=last_insert_rowid();";
+                sqlQuery = "INSERT INTO   `smena_info` (title, table_name, distantion)VALUES ('" + a.a.Text + "','smena"+ (i).ToString() + "','"+ a.f.Text +"');";
                 command = new SQLiteCommand(sqlQuery, m_dbConn);
-                int id_category = Convert.ToInt32(command.ExecuteScalar());
-                List<string> dist = new List<string>() { };
-                dist.AddRange(a.d.Text.Split(','));
-                if (dist.Count() == 1)
-                    dist.Add(dist[0]);
+                command.ExecuteNonQuery();
+                sqlQuery = "SELECT id FROM smena_info WHERE id=last_insert_rowid();";
+                command = new SQLiteCommand(sqlQuery, m_dbConn);
+                string id_smena = command.ExecuteScalar().ToString();
+                competition.smena_id += id_smena + ",";
                 foreach (Object obj in l1.CheckedItems)
                 {
-                    table_names archer = (table_names)obj;
-                    set set = new set();
-                    set.id_archer = archer.id.ToString();
-                    set.category = id_category.ToString();
-                    for (int j = 0; j < dist.Count(); j++)
+                    table_names archer = (table_names)obj;                    
+                    if ( a.f.Text != "M1")
                     {
-                        if (j != 0)
-                            set.rounds += ",";
-                        sqlQuery = "INSERT INTO  rounds (distantion) values ('" + dist[i] + "');";
+                        string dist = (a.f.Text[0] + a.f.Text[1]).ToString();
+                        sqlQuery = "INSERT INTO  `rounds` (distantion)VALUES ('" + dist + "');INSERT INTO  `rounds` (distantion)VALUES ('" + dist + "');";
                         command = new SQLiteCommand(sqlQuery, m_dbConn);
                         command.ExecuteNonQuery();
                         sqlQuery = "SELECT id FROM rounds WHERE id=last_insert_rowid();";
                         command = new SQLiteCommand(sqlQuery, m_dbConn);
                         int id_round = Convert.ToInt32(command.ExecuteScalar());
-                        set.rounds += id_round;
+                        sqlQuery = "INSERT INTO  performance (id_user,id_rounds) values ('" + archer.id.ToString() + "','" + (id_round-1).ToString() +"," + id_round.ToString() + "');";
+                        command = new SQLiteCommand(sqlQuery, m_dbConn);
+                        command.ExecuteNonQuery();
                     }
-                    sqlQuery = "INSERT INTO  'set' (id_archer, array_id_rounds,id_category )VALUES ('" + set.id_archer + "','" + set.rounds + "','" + set.category + "');";
+                    else
+                    {
+                        if (archer.pol)
+                        {
+                            sqlQuery = "INSERT INTO  `rounds` (distantion)VALUES ('90');INSERT INTO  `rounds` (distantion)VALUES ('70');INSERT INTO  `rounds` (distantion)VALUES ('50');INSERT INTO  `rounds` (distantion)VALUES ('30');";
+                        }
+                        else
+                        {
+                            sqlQuery = "INSERT INTO  `rounds` (distantion)VALUES ('70');INSERT INTO  `rounds` (distantion)VALUES ('60');INSERT INTO  `rounds` (distantion)VALUES ('50');INSERT INTO  `rounds` (distantion)VALUES ('30');";
+                        }
+                        command = new SQLiteCommand(sqlQuery, m_dbConn);
+                        command.ExecuteNonQuery();
+                        sqlQuery = "SELECT id FROM rounds WHERE id=last_insert_rowid();";
+                        command = new SQLiteCommand(sqlQuery, m_dbConn);
+                        int id_round = Convert.ToInt32(command.ExecuteScalar());
+                        sqlQuery = "INSERT INTO  perfomanse (id_user,id_rounds) values ('" + archer.id.ToString() + "','" + (id_round - 3).ToString() + "','" + (id_round -2).ToString() + "','" + (id_round - 1).ToString() + "','" + id_round.ToString() + "');";
+                        command = new SQLiteCommand(sqlQuery, m_dbConn);
+                        command.ExecuteNonQuery();
+                    }
+                    sqlQuery = "SELECT id FROM rounds WHERE id=last_insert_rowid();";
+                    command = new SQLiteCommand(sqlQuery, m_dbConn);
+                    string id_perfomanse = command.ExecuteScalar().ToString();                    
+                    competition.set_rounds += id_perfomanse + ",";
+                    sqlQuery = "INSERT INTO   'smena" + (i).ToString() + "' (id_perfomanse)VALUES ('" + id_perfomanse + "');";
                     command = new SQLiteCommand(sqlQuery, m_dbConn);
                     command.ExecuteNonQuery();
-                    sqlQuery = "SELECT id FROM 'set' WHERE id=last_insert_rowid();";
-                    command = new SQLiteCommand(sqlQuery, m_dbConn);
-                    string id_set = command.ExecuteScalar().ToString();
-                    competition.set_rounds += id_set + ",";
-                }
+                }                
                 i++;
             }
+            competition.smena_id = competition.smena_id.Substring(0, competition.smena_id.Length - 1);
             competition.set_rounds = competition.set_rounds.Substring(0, competition.set_rounds.Length - 1);
-            sqlQuery = "INSERT INTO  competition (name, array_rounds_sets, start_date, end_date)VALUES ('" + competition.name + "','" + competition.set_rounds + "','" + competition.start_date.ToString("yyyy-MM-dd") + "','" + competition.end_date.ToString("yyyy-MM-dd") + "');";
+            sqlQuery = "INSERT INTO  competition (name, id_performance, start_date, end_date, id_smena)VALUES ('" + competition.name + "','" + competition.set_rounds + "','" + competition.start_date.ToString("yyyy-MM-dd") + "','" + competition.end_date.ToString("yyyy-MM-dd") + "','" + competition.smena_id + "');";
             command = new SQLiteCommand(sqlQuery, m_dbConn);
             command.ExecuteNonQuery();
             if (!File.Exists("this_comp.txt"))
@@ -282,27 +307,29 @@ namespace WindowsFormsApp4
                 TextBox a = textBox2;
                 ComboBox b = comboBox3;
                 ComboBox c = comboBox4;
-                CheckComboBoxTest.CheckedComboBox d = checkedComboBox1;
+                ComboBox f = comboBox1;
                 TextBox temp1 = new TextBox();
                 ComboBox temp2 = new ComboBox();
                 ComboBox temp3 = new ComboBox();
-                CheckComboBoxTest.CheckedComboBox temp4 = new CheckComboBoxTest.CheckedComboBox();
+                ComboBox temp4 = new ComboBox();
                 temp1.Name = "temp1." + i.ToString();
                 temp2.Name = "temp2." + i.ToString();
                 temp3.Name = "temp3." + i.ToString();
                 temp4.Name = "temp4." + i.ToString();
                 temp1.Width = a.Width;
-                temp4.Width = d.Width;
+                temp4.Width = f.Width;
                 foreach (var obj in b.Items)
                     temp2.Items.Add(obj);
                 foreach (var obj in c.Items)
                     temp3.Items.Add(obj);
-                foreach (var obj in d.Items)
+                foreach (var obj in f.Items)
                     temp4.Items.Add(obj);
+                temp4.SelectedItem = comboBox1.Items[1];
+                temp2.SelectedItem = comboBox3.Items[0];
                 temp1.Location = new Point(a.Location.X, a.Location.Y + a.Height * i + 25 * i);
                 temp2.Location = new Point(b.Location.X, b.Location.Y + b.Height * i + 24 * i);
                 temp3.Location = new Point(c.Location.X, c.Location.Y + c.Height * i + 24 * i);
-                temp4.Location = new Point(d.Location.X, d.Location.Y + d.Height * i + 24 * i);
+                temp4.Location = new Point(f.Location.X, f.Location.Y + f.Height * i + 24 * i);
                 temp2.DropDownStyle = ComboBoxStyle.DropDownList;
                 temp3.DropDownStyle = ComboBoxStyle.DropDownList;
                 panel1.Controls.Add(temp1);
@@ -313,7 +340,7 @@ namespace WindowsFormsApp4
                 item.a = temp1;
                 item.b = temp2;
                 item.c = temp3;
-                item.d = temp4;
+                item.f = temp4;
                 categories.Add(item);
             }
 
@@ -440,167 +467,81 @@ namespace WindowsFormsApp4
                 label3.Text += k.ToString() + " ";
             }
         }
-
-        List<archer_comp> this_comp = new List<archer_comp>() { };
-        private void button6_Click_1(object sender, EventArgs e)
+          
+        private void button6_Click_1(object sender, EventArgs e)                                                                               // работает- не трожь
         {
+            dataGridView3.Rows.Clear();
             FileStream file1 = new FileStream("this_comp.txt", FileMode.Open);
             StreamReader reader2 = new StreamReader(file1);
-            string id2 = (reader2.ReadToEnd());
+            string competition_id = (reader2.ReadToEnd());
             reader2.Close();
-            string sqlQuery = "SELECT * from competition where competition.id = " + id2 + ";";
-            string sqlQuery2 = "";
-            string categ = "";
+            string sqlQuery = "select id_smena from competition where id = '" + competition_id + "' ";
             SQLiteCommand command = new SQLiteCommand(sqlQuery, m_dbConn);
-            SQLiteDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            SQLiteDataReader id_smena = command.ExecuteReader();
+            List<string> smena_id_array = new List<string>();
+            while (id_smena.Read())
             {
-                competitioons thiscomp = new competitioons();
-                thiscomp.name = reader["name"].ToString();
-                thiscomp.set_rounds = reader["array_rounds_sets"].ToString();
-                thiscomp.sparrings = reader["id_sparrings"].ToString();
-                thiscomp.start_date = Convert.ToDateTime(reader["start_date"]);
-                thiscomp.end_date = Convert.ToDateTime(reader["end_date"]);
-                string[] sets = thiscomp.set_rounds.Split(',');
-                string pol_buf = "";
-                string pol_buf1 = "";
-                string category_buf = "";
-                string category_buf1 = "";
-                string bow_buf = "";
-                string bow_buf1 = "";
-                string desc = "";
-                foreach (string id in sets)
+                string[] smena_id = id_smena[0].ToString().Split(',');
+                foreach (string smena in smena_id)
                 {
-                    sqlQuery = "SELECT * from 'set' where id = " + id + " ORDER BY id_category asc;";
-                    command = new SQLiteCommand(sqlQuery, m_dbConn);
-                    SQLiteDataReader set_reader = command.ExecuteReader();
-                    while (set_reader.Read())
-                    {
-                        set set1 = new set();
-                        archer_comp archer = new archer_comp();
-                        set1.id = set_reader["id"].ToString();
-                        set1.id_archer = set_reader["id_archer"].ToString();
-                        set1.rounds = set_reader["array_id_rounds"].ToString();
-                        set1.stand = set_reader["stand"].ToString();
-                        set1.latter = set_reader["latter"].ToString();
-                        set1.category = set_reader["id_category"].ToString();
-                        category_buf = set1.category;
-                        archer.id = set1.id_archer;
-                        string[] rounds = set1.rounds.Split(',');
-                        foreach (string id1 in rounds)
-                        {
-                            sqlQuery = "SELECT * from 'rounds' where id = " + id1 + ";";
-                            command = new SQLiteCommand(sqlQuery, m_dbConn);
-                            SQLiteDataReader round_reader = command.ExecuteReader();
-                            while (round_reader.Read())
-                            {
-                                round round1 = new round();
-                                round1.id = round_reader["id"].ToString();
-                                round1.result = round_reader["result"].ToString();
-                                round1.distantion = round_reader["distantion"].ToString();
-                                if (round1.result != "")
-                                {
-                                    archer.summ += Convert.ToInt32(round1.result);
-                                }
-                                archer.rounds.Add(round1);
-                            }
-                        }
-                        sqlQuery = "select * from `users` where id = '" + archer.id + "' ORDER BY bow_type  ASC, pol DESC";
-                        command = new SQLiteCommand(sqlQuery, m_dbConn);
-                        SQLiteDataReader archer_reader = command.ExecuteReader();
-                        while (archer_reader.Read())
-                        {
-                            archer.fio = archer_reader["name"].ToString();
-                            archer.age = Convert.ToDateTime(archer_reader["age"]);
-                            archer.region = archer_reader["region"].ToString();
-                            archer.rang = archer_reader["rang"].ToString();
-                            archer.sp_organization = archer_reader["sp_organization"].ToString();
-                            archer.vedomstvo = archer_reader["vedomost"].ToString();
-                            archer.pol = Convert.ToBoolean(archer_reader["pol"].ToString());
-                            pol_buf = archer_reader["pol"].ToString();
-                            bow_buf = archer_reader["bow_type"].ToString();
-                        }
-                        if (category_buf != category_buf1 || pol_buf != pol_buf1 || bow_buf != bow_buf1)
-                        {
-                            sqlQuery = "SELECT * from categories where id = " + category_buf.ToString() + "";
-                            SQLiteCommand command3 = new SQLiteCommand(sqlQuery, m_dbConn);
-                            SQLiteDataReader cat_reader = command3.ExecuteReader();
-                            dataGridView3.Rows.Add();
-                            dataGridView3.Rows.Add();
-                            while (cat_reader.Read())
-                            {
-
-                                int number;
-                                if (Int32.TryParse(cat_reader["max_date"].ToString(), out number))
-                                {
-                                    categ = cat_reader["name"].ToString() + "  " + cat_reader["min_date"].ToString() + "-" + cat_reader["max_date"].ToString() + "  " + archer.pols + "  ";
-                                }
-                                else
-                                {
-                                    categ = cat_reader["name"].ToString() + "  " + cat_reader["min_date"].ToString() + "  " + cat_reader["max_date"].ToString() + "  " + archer.pols + "  ";
-                                }
-                                dataGridView3.Rows.Add("", "", categ + bow_buf);
-                                if (bow_buf == "Классический лук")
-                                {
-                                    desc = (categ + "КЛ");
-                                    checkedComboBox3.Items.Add(categ + "КЛ");
-                                    sqlQuery2 = "UPDATE 'set' SET description = '" + categ + "КЛ" + "' WHERE id = " + set1.id.ToString() + " ;";
-                                }
-                                else if (bow_buf == "Блочный лук")
-                                {
-                                    desc = (categ + "БЛ");
-                                    checkedComboBox3.Items.Add(categ + "БЛ");
-                                    sqlQuery2 = "UPDATE 'set' SET description = '" + categ + "БЛ" + "' WHERE id = " + set1.id.ToString() + " ;";
-                                }
-                                SQLiteCommand upd_command = new SQLiteCommand(sqlQuery2, m_dbConn);
-                                upd_command.ExecuteNonQuery();
-                            }
-                            dataGridView3.Rows.Add
-                            (
-                                archer.stand,
-                                archer.plase,
-                                archer.fio,
-                                archer.age.ToString("dd:MM:yyyy"),
-                                archer.rang,
-                                archer.region,
-                                archer.vedomstvo,
-                                archer.sp_organization,
-                                archer.round,
-                                archer.tens,
-                                archer.x,
-                                archer.summ
-                            );
-                        }
-                        else
-                        {
-                            SQLiteCommand upd_command = new SQLiteCommand("UPDATE 'set' SET description = '" + categ + "БЛ" + "' WHERE id = " + set1.id.ToString() + " ;", m_dbConn);
-                            upd_command.ExecuteNonQuery();
-                            dataGridView3.Rows.Add(
-                            archer.stand,
-                            archer.plase,
-                            archer.fio,
-                            archer.age.ToString("dd:MM:yyyy"),
-                            archer.rang,
-                            archer.region,
-                            archer.vedomstvo,
-                            archer.sp_organization,
-                            archer.round,
-                            archer.tens,
-                            archer.x,
-                            archer.summ);
-                        }
-                        category_buf1 = category_buf;
-                        pol_buf1 = pol_buf;
-                        bow_buf1 = bow_buf;
-                        archer.description = desc;
-                        this_comp.Add(archer);
-                    }
-
+                    smena_id_array.Add(smena);
                 }
-
             }
-
-
+            checkedComboBox3.Items.Clear();
+            foreach (string smena_id in smena_id_array)
+            {
+                sqlQuery = "select * from smena_info where id = '" + smena_id + "' ";
+                command = new SQLiteCommand(sqlQuery, m_dbConn);
+                SQLiteDataReader cat = command.ExecuteReader();
+                while (cat.Read())
+                {
+                    checheckedComboBox_category categ = new checheckedComboBox_category();
+                    categ.id = cat["id"].ToString();
+                    categ.name = cat["title"].ToString();
+                    checkedComboBox3.Items.Add(categ);
+                }
+                
+            }
+                foreach (string table_id in smena_id_array)
+            {
+                List<archer_comp> smena = new List<archer_comp>();
+                sqlQuery = "SELECT table_name FROM smena_info WHERE id= '"+ table_id + "';";
+                command = new SQLiteCommand(sqlQuery, m_dbConn);
+                string name_table = command.ExecuteScalar().ToString();
+                sqlQuery = "select sheild,plase,letter,name,age,rang,region,vedomost,sp_organization,id_rounds,id_user,id_perfomanse from (select * from (select * from (select name,age,rang,region,sp_organization, vedomost,pol, id  as iid from users where id in( SELECT id_user FROM performance WHERE id IN (SELECT id_perfomanse FROM '" + name_table + "'  ))) a inner join  ( SELECT * FROM performance WHERE id IN (SELECT id_perfomanse  FROM '" + name_table + "'  )) d on a.iid = d.id_user) c inner join '" + name_table + "' on c.id = '" + name_table + "'.id_perfomanse)";
+                command = new SQLiteCommand(sqlQuery, m_dbConn);
+                SQLiteDataReader archer_reader = command.ExecuteReader();
+                archer_comp archer = new archer_comp();
+                while (archer_reader.Read())
+                {
+                    archer.fio = archer_reader["name"].ToString();
+                    archer.age = Convert.ToDateTime(archer_reader["age"]);
+                    archer.region = archer_reader["region"].ToString();
+                    archer.rang = archer_reader["rang"].ToString();
+                    archer.sp_organization = archer_reader["sp_organization"].ToString();
+                    archer.vedomstvo = archer_reader["vedomost"].ToString();
+                   // archer.pol = Convert.ToBoolean(archer_reader["pol"].ToString());
+                    dataGridView3.Rows.Add
+                    (
+                        archer.stand,
+                        archer.letter,
+                        archer.plase,
+                        archer.fio,
+                        archer.age.ToString("dd:MM:yyyy"),
+                        archer.rang,
+                        archer.region,
+                        archer.vedomstvo,
+                        archer.sp_organization,
+                        archer.round,
+                        archer.tens,
+                        archer.x,
+                        archer.summ
+                    );
+                }
+                dataGridView3.Rows.Add();
+                dataGridView3.Rows.Add();
+            }
+            
         }
 
 
@@ -613,7 +554,7 @@ namespace WindowsFormsApp4
         {
 
         }
-        List<category_halder> categories2 = new List<category_halder>() { };
+        public List<category_halder> categories2 = new List<category_halder>() { };
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)
         {
             categories2.Clear();
@@ -622,10 +563,10 @@ namespace WindowsFormsApp4
             {
                 TextBox a = textBox4;
                 CheckComboBoxTest.CheckedComboBox d = checkedComboBox3;
-                d.DisplayMember = "FullName";
-                d.ValueMember = "id";
+                d.DisplayMember = "name"; 
+                d.ValueMember = "id"; 
                 TextBox temp1 = new TextBox();
-                CheckComboBoxTest.CheckedComboBox temp2 = new CheckComboBoxTest.CheckedComboBox();
+                CheckComboBoxTest.CheckedComboBox temp2 = new CheckComboBoxTest.CheckedComboBox();                
                 temp1.Name = "temp1." + i.ToString();
                 temp2.Name = "temp2." + i.ToString();
                 temp1.Text = ("смена " + (i + 1).ToString());
@@ -633,6 +574,8 @@ namespace WindowsFormsApp4
                 temp2.Width = d.Width;
                 foreach (var obj in d.Items)
                     temp2.Items.Add(obj);
+                temp2.DisplayMember = "name";
+                temp2.ValueMember = "id";
                 temp1.Location = new Point(a.Location.X, a.Location.Y + a.Height * i + 35 * i);
                 temp2.Location = new Point(d.Location.X, d.Location.Y + d.Height * i + 36 * i);
                 panel3.Controls.Add(temp1);
@@ -643,28 +586,36 @@ namespace WindowsFormsApp4
                 categories2.Add(item);
             }
         }
-        List<DataGridView> smena_tables = new List<DataGridView>() { };
+
+
+
+        private void button_Click(object sender, EventArgs e)
+        {
+            
+
+            (this.Controls["l1"] as DataGridView).Rows.Clear();
+
+        }
+
+        public List<DataGridView> smena_tables = new List<DataGridView>() { };
+        public List<List<archer_comp>> comp_smena = new List<List<archer_comp>>() { };
+        public List<archer_comp> this_comp = new List<archer_comp>() { };
         private void button7_Click(object sender, EventArgs e)
         {
-
+            List<archer_comp> smena = new List<archer_comp>();
+            Form4 f = new Form4();
+            f.Owner = this;
+            f.Show();            
             foreach (category_halder category in categories2)
             {
-                //button7.Text = checkedComboBox2.Text;
-                Form container = new Form();
-                SplitContainer split = new SplitContainer();
+                int i = 0;                
                 TabPage myTabPage = new TabPage(category.a.Text);
-                DataGridView l1 = new DataGridView();
-                container.Width = 1280;
-                container.Height = 680;
-                container.Show();
-                container.Controls.Add(split);
-                split.SplitterDistance = 250;
-                split.Dock = DockStyle.Fill;
-                split.Panel1.Controls.Add(l1);
-                //split.Panel1.BackColor = Color.FromName("black");
-                tabControl3.TabPages.Add(myTabPage);               
+                DataGridView l1 = new DataGridView();                
+                l1.Show();                
+                tabControl3.TabPages.Add(myTabPage);
+                f.tabControl1.TabPages.Add(myTabPage);
                 l1.Dock = DockStyle.Fill;
-                myTabPage.Controls.Add(l1);
+                myTabPage.Controls.Add(l1);               
                 int i5 = 1;
                 foreach (DataGridViewColumn obj in dataGridView3.Columns)
                 {
@@ -676,23 +627,47 @@ namespace WindowsFormsApp4
                     col.Name = "col" + i5.ToString();
                     l1.Columns.Add(col);
                 }
-                
+
                 l1.ReadOnly = true;
                 l1.AllowUserToAddRows = false;
                 l1.AllowUserToDeleteRows = false;
-                string antibugg;
-                foreach (string categ in category.d.Text.Split(','))
-                {
-                    l1.Rows.Add("", "", categ);
-                    antibugg = categ;
-                    if (categ[0] == ' ')
-                        antibugg = categ.Remove(0, 1);
-                    foreach (archer_comp archer in this_comp)
+                string[] selected = category.d.Text.Split(',');
+                int k = 0;
+                List<string> list_id = new List<string>() { };
+                for (int j = 0; j < selected.Count(); j++)
+                {                    
+                    foreach (object cat in category.d.Items)
                     {
-                        if (archer.description == antibugg)
+                        checheckedComboBox_category categh = (checheckedComboBox_category)cat;
+                        if (categh.name == selected[j] || " "+categh.name == selected[j])
                         {
-                            l1.Rows.Add(
+                            list_id.Add(categh.id);                           
+                        }
+                    }                    
+                }
+                foreach (string categ_id in list_id)
+                {
+                    string sqlQuery = "SELECT table_name FROM smena_info WHERE id= '" + categ_id + "';";
+                    SQLiteCommand command = new SQLiteCommand(sqlQuery, m_dbConn);
+                    string name_table = command.ExecuteScalar().ToString();
+                    sqlQuery = "select sheild,plase,letter,name,age,rang,region,vedomost,sp_organization,id_rounds,id_user,id_perfomanse from (select * from (select * from (select name,age,rang,region,sp_organization, vedomost,pol, id  as iid from users where id in( SELECT id_user FROM performance WHERE id IN (SELECT id_perfomanse FROM '" + name_table + "'  ))) a inner join  ( SELECT * FROM performance WHERE id IN (SELECT id_perfomanse  FROM '" + name_table + "'  )) d on a.iid = d.id_user) c inner join '" + name_table + "' on c.id = '" + name_table + "'.id_perfomanse)";
+                    command = new SQLiteCommand(sqlQuery, m_dbConn);
+                    SQLiteDataReader archer_reader = command.ExecuteReader();
+                    archer_comp archer = new archer_comp();
+                    while (archer_reader.Read())
+                    {
+                        archer.fio = archer_reader["name"].ToString();
+                        archer.age = Convert.ToDateTime(archer_reader["age"]);
+                        archer.region = archer_reader["region"].ToString();
+                        archer.rang = archer_reader["rang"].ToString();
+                        archer.sp_organization = archer_reader["sp_organization"].ToString();
+                        archer.vedomstvo = archer_reader["vedomost"].ToString();
+                        smena.Add(archer);
+                        // archer.pol = Convert.ToBoolean(archer_reader["pol"].ToString());
+                        l1.Rows.Add
+                        (
                             archer.stand,
+                            archer.letter,
                             archer.plase,
                             archer.fio,
                             archer.age.ToString("dd:MM:yyyy"),
@@ -703,20 +678,28 @@ namespace WindowsFormsApp4
                             archer.round,
                             archer.tens,
                             archer.x,
-                            archer.summ);
-                        }
+                            archer.summ
+                        );
                     }
                     l1.Rows.Add();
                 }
+                comp_smena.Add(smena);
                 smena_tables.Add(l1);
+                i++;
             }
+            f.comp_smena = comp_smena;
+        }
+
+        private static Point GetLocation(Button added_button2)
+        {
+            return added_button2.Location;
         }
 
         private void tabControl1_TabIndexChanged(object sender, EventArgs e)
         {
 
         }
-        private void smena_ubdate()
+        public void smena_ubdate()
         {
             foreach (category_halder category in categories2)
             {
@@ -989,6 +972,15 @@ namespace WindowsFormsApp4
         {
 
         }
-    }
+    }//эта очень важная штука
 }
-/*  */
+/*checheckedComboBox_category categh = (checheckedComboBox_category)category.d.Items[1];
+ *
+ * sqlQuery = "SELECT id FROM categories WHERE id=last_insert_rowid();";
+                command = new SQLiteCommand(sqlQuery, m_dbConn);
+                int id_category = Convert.ToInt32(command.ExecuteScalar());
+ * 
+ * 
+ * 
+ * select sheild,plase,letter,name,age,rang,vedomost,sp_organization,id_rounds,id_user,id_perfomanse from (select * from (select * from (select name,age,rang,region,sp_organization, vedomost,pol, id  as iid from users where id in( SELECT id_user FROM performance WHERE id IN (SELECT id_perfomanse FROM smena1  ))) a
+inner join  ( SELECT * FROM performance WHERE id IN (SELECT id_perfomanse  FROM smena1  )) d on a.iid = d.id_user) c inner join smena1 on c.id = smena1.id_perfomanse)    */

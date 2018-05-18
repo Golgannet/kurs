@@ -50,3 +50,5 @@ B:\Dev\kurs-master\WindowsFormsApp4\obj\Debug\WindowsFormsApp4.Properties.Resour
 B:\Dev\kurs-master\WindowsFormsApp4\obj\Debug\WindowsFormsApp4.csproj.GenerateResource.Cache
 B:\Dev\kurs-master\WindowsFormsApp4\obj\Debug\WindowsFormsApp4.exe
 B:\Dev\kurs-master\WindowsFormsApp4\obj\Debug\WindowsFormsApp4.pdb
+B:\Dev\kurs-master\WindowsFormsApp4\obj\Debug\WindowsFormsApp4.Form4.resources
+B:\Dev\kurs-master\WindowsFormsApp4\obj\Debug\WindowsFormsApp4.Form5.resources

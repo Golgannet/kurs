@@ -35,11 +35,12 @@ namespace WindowsFormsApp4
         }
 
     }
-    class category_halder
+    public class category_halder
     {
         public TextBox a;
         public ComboBox b;
         public ComboBox c;
+        public ComboBox f;
         public CheckComboBoxTest.CheckedComboBox d;
         public string title()
         {
@@ -85,17 +86,17 @@ namespace WindowsFormsApp4
         public string result;
         public string distantion;
     }
-    class table
+    class checheckedComboBox_category
     {
-        public string id;
-        public string name;
+        public string id { get; set; }
+        public string name { get; set; }
     }
     class competitioons
     {
         public string id;
         public string name;
         public string set_rounds;
-        public string sparrings;
+        public string smena_id;
         public DateTime start_date;
         public DateTime end_date;
     }
@@ -112,7 +113,9 @@ namespace WindowsFormsApp4
     public class archer_comp
     {
         public string category_id;
+        public string perfomanse_id;
         public string stand;
+        public string letter;
         public string id;
         public int plase;
         public string fio;

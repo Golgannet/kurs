@@ -52,7 +52,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.checkedComboBox1 = new CheckComboBoxTest.CheckedComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
@@ -84,7 +83,9 @@
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.letter = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.place = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column20 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -98,7 +99,7 @@
             this.Column28 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column29 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column30 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -407,7 +408,7 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.checkedComboBox1);
+            this.panel1.Controls.Add(this.comboBox1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.comboBox4);
             this.panel1.Controls.Add(this.comboBox3);
@@ -416,19 +417,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(659, 261);
             this.panel1.TabIndex = 38;
-            // 
-            // checkedComboBox1
-            // 
-            this.checkedComboBox1.CheckOnClick = true;
-            this.checkedComboBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-            this.checkedComboBox1.DropDownHeight = 1;
-            this.checkedComboBox1.FormattingEnabled = true;
-            this.checkedComboBox1.IntegralHeight = false;
-            this.checkedComboBox1.Location = new System.Drawing.Point(556, 4);
-            this.checkedComboBox1.Name = "checkedComboBox1";
-            this.checkedComboBox1.Size = new System.Drawing.Size(99, 21);
-            this.checkedComboBox1.TabIndex = 40;
-            this.checkedComboBox1.ValueSeparator = ", ";
             // 
             // label2
             // 
@@ -611,12 +599,12 @@
             // 
             this.splitContainer3.Panel2.Controls.Add(this.tabControl3);
             this.splitContainer3.Size = new System.Drawing.Size(1250, 615);
-            this.splitContainer3.SplitterDistance = 573;
+            this.splitContainer3.SplitterDistance = 353;
             this.splitContainer3.TabIndex = 0;
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(49, 585);
+            this.button7.Location = new System.Drawing.Point(89, 585);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(117, 23);
             this.button7.TabIndex = 44;
@@ -630,15 +618,16 @@
             this.panel3.Controls.Add(this.checkedComboBox3);
             this.panel3.Location = new System.Drawing.Point(0, 205);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(214, 374);
+            this.panel3.Size = new System.Drawing.Size(351, 374);
             this.panel3.TabIndex = 43;
             // 
             // textBox4
             // 
             this.textBox4.Location = new System.Drawing.Point(1, 0);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 20);
+            this.textBox4.Size = new System.Drawing.Size(176, 20);
             this.textBox4.TabIndex = 42;
+            this.textBox4.Text = "смена 1";
             // 
             // checkedComboBox3
             // 
@@ -650,16 +639,26 @@
             this.checkedComboBox3.IntegralHeight = false;
             this.checkedComboBox3.Location = new System.Drawing.Point(1, 19);
             this.checkedComboBox3.Name = "checkedComboBox3";
-            this.checkedComboBox3.Size = new System.Drawing.Size(210, 19);
+            this.checkedComboBox3.Size = new System.Drawing.Size(347, 19);
             this.checkedComboBox3.TabIndex = 41;
             this.checkedComboBox3.ValueSeparator = ", ";
             // 
             // numericUpDown2
             // 
             this.numericUpDown2.Location = new System.Drawing.Point(117, 179);
+            this.numericUpDown2.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericUpDown2.Name = "numericUpDown2";
             this.numericUpDown2.Size = new System.Drawing.Size(82, 20);
             this.numericUpDown2.TabIndex = 7;
+            this.numericUpDown2.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
             // 
             // label14
@@ -725,9 +724,9 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(62, 110);
+            this.button6.Location = new System.Drawing.Point(3, 138);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(137, 23);
+            this.button6.Size = new System.Drawing.Size(152, 35);
             this.button6.TabIndex = 2;
             this.button6.Text = "начать соревнование";
             this.button6.UseVisualStyleBackColor = true;
@@ -746,10 +745,11 @@
             // tabControl3
             // 
             this.tabControl3.Controls.Add(this.tabPage5);
-            this.tabControl3.Location = new System.Drawing.Point(0, 160);
+            this.tabControl3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl3.Location = new System.Drawing.Point(0, 0);
             this.tabControl3.Name = "tabControl3";
             this.tabControl3.SelectedIndex = 0;
-            this.tabControl3.Size = new System.Drawing.Size(760, 455);
+            this.tabControl3.Size = new System.Drawing.Size(893, 615);
             this.tabControl3.TabIndex = 0;
             this.tabControl3.SelectedIndexChanged += new System.EventHandler(this.tabControl3_SelectedIndexChanged);
             this.tabControl3.TabIndexChanged += new System.EventHandler(this.tabControl3_TabIndexChanged);
@@ -761,7 +761,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(752, 429);
+            this.tabPage5.Size = new System.Drawing.Size(885, 589);
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "Общий протокол";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -773,6 +773,7 @@
             this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView3.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.stand,
+            this.letter,
             this.place,
             this.name,
             this.Column20,
@@ -786,11 +787,17 @@
             this.Column28,
             this.Column29,
             this.Column30});
-            this.dataGridView3.Location = new System.Drawing.Point(3, 223);
+            this.dataGridView3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView3.Location = new System.Drawing.Point(3, 3);
             this.dataGridView3.Name = "dataGridView3";
             this.dataGridView3.ReadOnly = true;
-            this.dataGridView3.Size = new System.Drawing.Size(626, 363);
+            this.dataGridView3.Size = new System.Drawing.Size(879, 583);
             this.dataGridView3.TabIndex = 1;
+            // 
+            // Column16
+            // 
+            this.Column16.HeaderText = "Column16";
+            this.Column16.Name = "Column16";
             // 
             // stand
             // 
@@ -798,6 +805,13 @@
             this.stand.Name = "stand";
             this.stand.ReadOnly = true;
             this.stand.Width = 40;
+            // 
+            // letter
+            // 
+            this.letter.HeaderText = "Буква";
+            this.letter.Name = "letter";
+            this.letter.ReadOnly = true;
+            this.letter.Width = 40;
             // 
             // place
             // 
@@ -887,10 +901,24 @@
             this.Column30.ReadOnly = true;
             this.Column30.Width = 65;
             // 
-            // Column16
+            // comboBox1
             // 
-            this.Column16.HeaderText = "Column16";
-            this.Column16.Name = "Column16";
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "12+12",
+            "18+18",
+            "30+30",
+            "40+40",
+            "50+50",
+            "60+60",
+            "70+70",
+            "90+90",
+            "M1"});
+            this.comboBox1.Location = new System.Drawing.Point(556, 4);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(99, 21);
+            this.comboBox1.TabIndex = 41;
             // 
             // Form1
             // 
@@ -955,7 +983,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Panel panel1;
-        private CheckComboBoxTest.CheckedComboBox checkedComboBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBox4;
         private System.Windows.Forms.ComboBox comboBox3;
@@ -974,13 +1001,33 @@
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TabControl tabControl3;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.TextBox textBox4;
+        private CheckComboBoxTest.CheckedComboBox checkedComboBox3;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.SplitContainer splitContainer4;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.DataGridViewTextBoxColumn stand;
+        private System.Windows.Forms.DataGridViewTextBoxColumn letter;
         private System.Windows.Forms.DataGridViewTextBoxColumn place;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column20;
@@ -994,25 +1041,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column28;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column29;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column30;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.TextBox textBox4;
-        private CheckComboBoxTest.CheckedComboBox checkedComboBox3;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Splitter splitter1;
-        private System.Windows.Forms.SplitContainer splitContainer4;
-        private System.Windows.Forms.DataGridView dataGridView2;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
 
