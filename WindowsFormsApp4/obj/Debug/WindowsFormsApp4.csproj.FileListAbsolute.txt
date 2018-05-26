@@ -52,3 +52,4 @@ B:\Dev\kurs-master\WindowsFormsApp4\obj\Debug\WindowsFormsApp4.exe
 B:\Dev\kurs-master\WindowsFormsApp4\obj\Debug\WindowsFormsApp4.pdb
 B:\Dev\kurs-master\WindowsFormsApp4\obj\Debug\WindowsFormsApp4.Form4.resources
 B:\Dev\kurs-master\WindowsFormsApp4\obj\Debug\WindowsFormsApp4.Form5.resources
+B:\Dev\kurs-master\WindowsFormsApp4\obj\Debug\WindowsFormsApp4.Form6.resources

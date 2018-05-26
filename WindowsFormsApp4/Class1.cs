@@ -84,7 +84,9 @@ namespace WindowsFormsApp4
     {
         public string id;
         public string result;
+        public string series;
         public string distantion;
+      
     }
     class checheckedComboBox_category
     {
@@ -157,11 +159,24 @@ namespace WindowsFormsApp4
             }
         }
         public int summ;
+        public byte nine;
         public byte tens;
         public byte x;
         public string normativ;
         public string description;
 
     }
-    
+
+    public static class CallBackMy
+    {
+        public delegate void callbackEvent(int what);
+        public static callbackEvent callbackEventHandler;
+    }
+    public static class CallBackString
+    {
+        public delegate void callbackEvent(string what);
+        public static callbackEvent callbackEventHandler;
+    }
+
+
 }

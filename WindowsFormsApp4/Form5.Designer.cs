@@ -64,7 +64,6 @@
             this.label11.Size = new System.Drawing.Size(106, 13);
             this.label11.TabIndex = 5;
             this.label11.Text = "колличество щитов";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
             // Form5
             // 
@@ -76,7 +75,6 @@
             this.Controls.Add(this.label11);
             this.Name = "Form5";
             this.Text = "жеребьёвка";
-            this.Load += new System.EventHandler(this.Form5_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -84,7 +82,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        public System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button button8;
     }

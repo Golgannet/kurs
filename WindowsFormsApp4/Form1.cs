@@ -183,10 +183,10 @@ namespace WindowsFormsApp4
             foreach (CheckedListBox l1 in tables)
             {
                 category_halder a = categories[i];
-                //sqlQuery = "DROP TABLE IF EXISTS 'smena" + (i + 8).ToString() + "';";
+                //sqlQuery = "drop table if exists 'smena" + (i).ToString() + "';";
                 //command = new SQLiteCommand(sqlQuery, m_dbConn);
                 //command.ExecuteNonQuery();
-                sqlQuery = "CREATE TABLE 'smena" + (i).ToString() + "' ( 'id' INTEGER PRIMARY KEY AUTOINCREMENT, 'id_perfomanse' INTEGER, 'sheild' INTEGER, 'letter' INTEGER )";
+                sqlQuery = " CREATE TABLE 'smena" + (i).ToString() + "' ( 'id' INTEGER PRIMARY KEY AUTOINCREMENT, 'id_perfomanse' INTEGER, 'sheild' INTEGER, 'letter' INTEGER )";
                 command = new SQLiteCommand(sqlQuery, m_dbConn);
                 command.ExecuteNonQuery();
                 sqlQuery = "INSERT INTO   `smena_info` (title, table_name, distantion)VALUES ('" + a.a.Text + "','smena"+ (i).ToString() + "','"+ a.f.Text +"');";
@@ -520,7 +520,26 @@ namespace WindowsFormsApp4
                     archer.rang = archer_reader["rang"].ToString();
                     archer.sp_organization = archer_reader["sp_organization"].ToString();
                     archer.vedomstvo = archer_reader["vedomost"].ToString();
-                   // archer.pol = Convert.ToBoolean(archer_reader["pol"].ToString());
+                    archer.rounds.Clear();
+                    string id_r = archer_reader["id_rounds"].ToString();
+                    foreach (string id in id_r.Split(','))
+                    {
+                        sqlQuery = "select * from rounds where id = '" + id + "'";
+                        command = new SQLiteCommand(sqlQuery, m_dbConn);
+                        SQLiteDataReader round_reader = command.ExecuteReader();
+                        while (round_reader.Read())
+                        {                           
+                            round r = new round();
+                            r.id = round_reader["id"].ToString();
+                            r.result = round_reader["result"].ToString();
+                            r.series = round_reader["array_series"].ToString();
+                            r.distantion = round_reader["distantion"].ToString();
+                            archer.rounds.Add(r);
+                            archer.nine = Convert.ToByte(round_reader["nine"]);
+                            archer.tens = Convert.ToByte(round_reader["ten"]);
+                            archer.x = Convert.ToByte(round_reader["x"]);
+                        }
+                    }
                     dataGridView3.Rows.Add
                     (
                         archer.stand,
@@ -540,8 +559,7 @@ namespace WindowsFormsApp4
                 }
                 dataGridView3.Rows.Add();
                 dataGridView3.Rows.Add();
-            }
-            
+            }            
         }
 
 
@@ -601,8 +619,7 @@ namespace WindowsFormsApp4
         public List<List<archer_comp>> comp_smena = new List<List<archer_comp>>() { };
         public List<archer_comp> this_comp = new List<archer_comp>() { };
         private void button7_Click(object sender, EventArgs e)
-        {
-            List<archer_comp> smena = new List<archer_comp>();
+        {           
             Form4 f = new Form4();
             f.Owner = this;
             f.Show();            
@@ -610,7 +627,8 @@ namespace WindowsFormsApp4
             {
                 int i = 0;                
                 TabPage myTabPage = new TabPage(category.a.Text);
-                DataGridView l1 = new DataGridView();                
+                DataGridView l1 = new DataGridView();
+                List<archer_comp> smena = new List<archer_comp>();
                 l1.Show();                
                 tabControl3.TabPages.Add(myTabPage);
                 f.tabControl1.TabPages.Add(myTabPage);
@@ -647,23 +665,42 @@ namespace WindowsFormsApp4
                 }
                 foreach (string categ_id in list_id)
                 {
-                    string sqlQuery = "SELECT table_name FROM smena_info WHERE id= '" + categ_id + "';";
+                    string sqlQuery = "SELECT table_name  FROM smena_info WHERE id= '" + categ_id + "';";
                     SQLiteCommand command = new SQLiteCommand(sqlQuery, m_dbConn);
                     string name_table = command.ExecuteScalar().ToString();
                     sqlQuery = "select sheild,plase,letter,name,age,rang,region,vedomost,sp_organization,id_rounds,id_user,id_perfomanse from (select * from (select * from (select name,age,rang,region,sp_organization, vedomost,pol, id  as iid from users where id in( SELECT id_user FROM performance WHERE id IN (SELECT id_perfomanse FROM '" + name_table + "'  ))) a inner join  ( SELECT * FROM performance WHERE id IN (SELECT id_perfomanse  FROM '" + name_table + "'  )) d on a.iid = d.id_user) c inner join '" + name_table + "' on c.id = '" + name_table + "'.id_perfomanse)";
                     command = new SQLiteCommand(sqlQuery, m_dbConn);
-                    SQLiteDataReader archer_reader = command.ExecuteReader();
-                    archer_comp archer = new archer_comp();
+                    SQLiteDataReader archer_reader = command.ExecuteReader();                    
                     while (archer_reader.Read())
                     {
+                        archer_comp archer = new archer_comp();
                         archer.fio = archer_reader["name"].ToString();
+                        archer.id = archer_reader["id_perfomanse"].ToString();
                         archer.age = Convert.ToDateTime(archer_reader["age"]);
                         archer.region = archer_reader["region"].ToString();
                         archer.rang = archer_reader["rang"].ToString();
                         archer.sp_organization = archer_reader["sp_organization"].ToString();
                         archer.vedomstvo = archer_reader["vedomost"].ToString();
+                        string[] round_id = archer_reader["id_rounds"].ToString().Split(',');
+                        foreach (string id in round_id)
+                        {
+                            sqlQuery = "select * from rounds where id = '" + id + "'";
+                            command = new SQLiteCommand(sqlQuery, m_dbConn);
+                            SQLiteDataReader round_reader = command.ExecuteReader();
+                            while (round_reader.Read())
+                            {
+                                round r = new round();
+                                r.id = round_reader["id"].ToString();
+                                r.result = round_reader["result"].ToString();
+                                r.series = round_reader["array_series"].ToString();
+                                r.distantion = round_reader["distantion"].ToString();
+                                archer.rounds.Add(r);
+                                archer.nine = Convert.ToByte(round_reader["nine"]);
+                                archer.tens = Convert.ToByte(round_reader["ten"]);
+                                archer.x = Convert.ToByte(round_reader["x"]);
+                            }
+                        }
                         smena.Add(archer);
-                        // archer.pol = Convert.ToBoolean(archer_reader["pol"].ToString());
                         l1.Rows.Add
                         (
                             archer.stand,
