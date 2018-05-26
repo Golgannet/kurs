@@ -52,6 +52,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
@@ -83,7 +84,6 @@
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stand = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.letter = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.place = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -99,7 +99,7 @@
             this.Column28 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column29 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column30 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -417,6 +417,15 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(659, 261);
             this.panel1.TabIndex = 38;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(556, 4);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(99, 21);
+            this.comboBox1.TabIndex = 41;
             // 
             // label2
             // 
@@ -794,11 +803,6 @@
             this.dataGridView3.Size = new System.Drawing.Size(879, 583);
             this.dataGridView3.TabIndex = 1;
             // 
-            // Column16
-            // 
-            this.Column16.HeaderText = "Column16";
-            this.Column16.Name = "Column16";
-            // 
             // stand
             // 
             this.stand.HeaderText = "Щит";
@@ -901,24 +905,10 @@
             this.Column30.ReadOnly = true;
             this.Column30.Width = 65;
             // 
-            // comboBox1
+            // Column16
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "12+12",
-            "18+18",
-            "30+30",
-            "40+40",
-            "50+50",
-            "60+60",
-            "70+70",
-            "90+90",
-            "M1"});
-            this.comboBox1.Location = new System.Drawing.Point(556, 4);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(99, 21);
-            this.comboBox1.TabIndex = 41;
+            this.Column16.HeaderText = "Column16";
+            this.Column16.Name = "Column16";
             // 
             // Form1
             // 

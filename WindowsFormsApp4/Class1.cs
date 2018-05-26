@@ -93,6 +93,12 @@ namespace WindowsFormsApp4
         public string id { get; set; }
         public string name { get; set; }
     }
+    class distantion
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public int rounds_col { get; set; }
+    }
     class competitioons
     {
         public string id;
@@ -119,6 +125,8 @@ namespace WindowsFormsApp4
         public string stand;
         public string letter;
         public string id;
+        public string id_smena;
+        public string id_perf;
         public int plase;
         public string fio;
         public DateTime age;

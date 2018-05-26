@@ -30,7 +30,7 @@ namespace WindowsFormsApp4
 
         private void Form6_Load(object sender, EventArgs e)
         {
-
+            Form4 main = this.Owner as Form4;
         }
     }
 }
